@@ -570,6 +570,31 @@
       <div id="apiMessage" class="notice info" style="display:none;"></div>
     </section>
 
+    <!-- V2 API 预留功能区 -->
+    <section class="card">
+      <h2>V2 新功能 (準備中)</h2>
+      <p class="muted">以下是 V2 版預留的 API 對接功能，正式上線時間另行通知。</p>
+      <div class="grid">
+        <div class="span-6">
+          <button type="button" class="secondary" id="v2ParseBomBtn">NLP BOM 解析</button>
+          <p class="muted" style="font-size:12px;margin-top:4px;">/api/v2/parse-bom - 自然語言解析 BOM 描述</p>
+        </div>
+        <div class="span-6">
+          <button type="button" class="secondary" id="v2TariffQueryBtn">稅則查詢</button>
+          <p class="muted" style="font-size:12px;margin-top:4px;">/api/v2/tariff-query - 查詢稅則號列與稅率</p>
+        </div>
+        <div class="span-6">
+          <button type="button" class="secondary" id="v2EcfaCheckBtn">ECFA 範圍檢查</button>
+          <p class="muted" style="font-size:12px;margin-top:4px;">/api/v2/ecfa-check - 檢查產品是否在 ECFA 範圍內</p>
+        </div>
+        <div class="span-6">
+          <button type="button" class="secondary" id="v2OptimizeBtn">多目標優化</button>
+          <p class="muted" style="font-size:12px;margin-top:4px;">/api/v2/optimize - 稅率、成本、產地多目標優化</p>
+        </div>
+      </div>
+      <div id="v2ApiMessage" class="notice info" style="display:none;"></div>
+    </section>
+
     <section class="card">
       <h2>5. 分析結果</h2>
       <p id="emptyState" class="muted">尚未產生結果。先填基本資料與 BOM，再開始分析。</p>
@@ -1147,6 +1172,27 @@
     document.getElementById('uploadBtn').addEventListener('click', handleUpload);
     document.getElementById('loadSampleBtn').addEventListener('click', loadSample);
     document.getElementById('clearBtn').addEventListener('click', clearForm);
+
+    // V2 API 预留功能 handlers
+    document.getElementById('v2ParseBomBtn').addEventListener('click', () => {
+      showV2Message('NLP BOM 解析功能準備中，即將上線。', 'info');
+    });
+    document.getElementById('v2TariffQueryBtn').addEventListener('click', () => {
+      showV2Message('稅則查詢功能準備中，即將上線。', 'info');
+    });
+    document.getElementById('v2EcfaCheckBtn').addEventListener('click', () => {
+      showV2Message('ECFA 範圍檢查功能準備中，即將上線。', 'info');
+    });
+    document.getElementById('v2OptimizeBtn').addEventListener('click', () => {
+      showV2Message('多目標優化功能準備中，即將上線。', 'info');
+    });
+
+    function showV2Message(msg, type) {
+      const el = document.getElementById('v2ApiMessage');
+      el.textContent = msg;
+      el.className = 'notice ' + (type === 'error' ? 'warn' : type);
+      el.style.display = 'block';
+    }
 
     boundaryConsentCheckbox.addEventListener('change', () => {
       boundaryConsentConfirmBtn.disabled = !boundaryConsentCheckbox.checked;
