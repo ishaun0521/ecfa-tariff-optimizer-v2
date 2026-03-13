@@ -408,13 +408,37 @@ class MultiObjectiveOptimizer:
         current_tw_ratio: float,
         target_ratio: float,
         ratio_gap: float,
-        recommended: Optional[OptimizationScenario],
-        scenarios: List[OptimizationScenario]
+        recommended,
+        scenarios
     ) -> str:
         """生成 AI 解释"""
         
         if not recommended:
             return f"目前没有足够的可调整物料来进行优化。建议检查 BOM 中的物料是否可调整或已被锁定。"
+        
+        # Handle both dict and object cases
+        if isinstance(recommended, dict):
+            rec_name = recommended.get('scenario_name', 'N/A')
+            rec_tariff = recommended.get('estimated_tariff_rate', 0)
+            rec_reduction = recommended.get('tariff_reduction_pct', 0)
+            rec_cost = recommended.get('cost_change_pct', 0)
+            rec_feasibility = recommended.get('feasibility_score', 0)
+            rec_risk = recommended.get('risk_level', 'N/A')
+            rec_changes = recommended.get('material_changes', [])
+            rec_warnings = recommended.get('warnings', [])
+            material_name = rec_changes[0].get('material', '关键物料') if rec_changes else '关键物料'
+            change_desc = rec_changes[0].get('change_type', '') if rec_changes else ''
+        else:
+            rec_name = recommended.scenario_name
+            rec_tariff = recommended.estimated_tariff_rate
+            rec_reduction = recommended.tariff_reduction
+            rec_cost = recommended.cost_change_pct
+            rec_feasibility = recommended.feasibility_score
+            rec_risk = recommended.risk_level
+            rec_changes = recommended.material_changes
+            rec_warnings = recommended.warnings
+            material_name = rec_changes[0]['material'] if rec_changes else '关键物料'
+            change_desc = rec_changes[0].get('change_type', '') if rec_changes else ''
         
         explanation = f"""## {product_name} 优化分析报告
 
@@ -424,22 +448,22 @@ class MultiObjectiveOptimizer:
 - 差距：{ratio_gap}%
 
 ### 推荐方案
-**{recommended.scenario_name}**
-- 预估关税率：从当前税率降至 {recommended.estimated_tariff_rate}%
-- 关税降幅：{recommended.tariff_reduction}%
-- 成本变动：{recommended.cost_change_pct}%
-- 可行性评分：{recommended.feasibility_score}/100
-- 风险等级：{recommended.risk_level}
+**{rec_name}**
+- 预估关税率：从当前税率降至 {rec_tariff}%
+- 关税降幅：{rec_reduction}%
+- 成本变动：{rec_cost}%
+- 可行性评分：{rec_feasibility}/100
+- 风险等级：{rec_risk}
 
 ### 方案说明
-{recommended.material_changes[0].get('change_description', '') if recommended.material_changes else ''}
+以 {material_name} 作为优化杠杆
 
 ### 注意事项
-{chr(10).join(recommended.warnings)}
+{chr(10).join(rec_warnings)}
 
 ### 后续建议
 1. 确认成品税则号列是否在 ECFA 货品清单范围内
-2. 评估 {recommended.material_changes[0]['material'] if recommended.material_changes else '关键物料'} 的供应调整可行性
+2. 评估 {material_name} 的供应调整可行性
 3. 准备原产地证明相关文件
 """
         

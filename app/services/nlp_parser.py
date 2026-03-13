@@ -3,23 +3,31 @@
 
 import json
 import re
+import csv
+import io
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
-import pandas as pd
-import io
 
-# For PDF/Excel parsing (optional dependencies)
+# For PDF parsing (optional dependencies)
 try:
     import pdfplumber
     PDF_AVAILABLE = True
 except ImportError:
     PDF_AVAILABLE = False
 
+# For Excel parsing (optional dependencies)
 try:
     import openpyxl
     EXCEL_AVAILABLE = True
 except ImportError:
     EXCEL_AVAILABLE = False
+
+# Optional pandas - used only if available
+try:
+    import pandas as pd
+    PANDAS_AVAILABLE = True
+except ImportError:
+    PANDAS_AVAILABLE = False
 
 
 @dataclass
@@ -128,8 +136,101 @@ class BOMParser:
         if not EXCEL_AVAILABLE:
             return {"success": False, "error": "openpyxl not installed", "items": []}
         
-        df = pd.read_excel(io.BytesIO(file_content))
-        return self._parse_dataframe(df)
+        if PANDAS_AVAILABLE:
+            df = pd.read_excel(io.BytesIO(file_content))
+            return self._parse_dataframe(df)
+        else:
+            # Fallback: use openpyxl directly
+            return self._parse_excel_fallback(file_content)
+    
+    def _parse_excel_fallback(self, file_content: bytes) -> Dict[str, Any]:
+        """Fallback Excel parsing without pandas"""
+        from openpyxl import load_workbook
+        
+        wb = load_workbook(io.BytesIO(file_content), data_only=True)
+        ws = wb.active
+        
+        # Get headers
+        headers = [cell.value for cell in ws[1]]
+        
+        # Map columns
+        column_mapping = self._find_column_mapping(headers)
+        
+        items = []
+        for row in ws.iter_rows(min_row=2, values_only=True):
+            row_dict = dict(zip(headers, row))
+            item = self._extract_item_from_row_dict(row_dict, column_mapping)
+            if item.material_name:
+                items.append(item)
+        
+        self.last_parsed_items = items
+        
+        return {
+            "success": True,
+            "items": [self._material_to_dict(item) for item in items],
+            "statistics": self._calculate_statistics(items),
+            "missing_fields": self._identify_missing_fields(items),
+            "confidence": self._calculate_confidence(items)
+        }
+    
+    def _extract_item_from_row_dict(self, row: dict, mapping: dict) -> ParsedMaterial:
+        """Extract material from dict row"""
+        material_name = ""
+        ratio = None
+        cost = None
+        origin = None
+        hs_code = None
+        supplier = None
+        
+        for field in ["material_name", "name"]:
+            if field in mapping:
+                val = row.get(mapping[field])
+                if val:
+                    material_name = str(val).strip()
+                    break
+        
+        for field in ["ratio", "percentage"]:
+            if field in mapping:
+                val = row.get(mapping[field])
+                if val:
+                    ratio = self._extract_number(str(val))
+                    break
+        
+        for field in ["cost", "price"]:
+            if field in mapping:
+                val = row.get(mapping[field])
+                if val:
+                    cost = self._extract_number(str(val))
+                    break
+        
+        for field in ["origin_country", "origin"]:
+            if field in mapping:
+                val = row.get(mapping[field])
+                if val:
+                    origin = self._map_country(str(val))
+                    break
+        
+        if "hs_code" in mapping:
+            val = row.get(mapping["hs_code"])
+            if val:
+                hs_code = str(val).strip()
+        
+        if "supplier_name" in mapping:
+            val = row.get(mapping["supplier_name"])
+            if val:
+                supplier = str(val).strip()
+        
+        confidence = self._calculate_item_confidence(material_name, ratio, cost, origin, hs_code)
+        
+        return ParsedMaterial(
+            material_name=material_name,
+            ratio=ratio,
+            cost=cost,
+            origin_country=origin,
+            hs_code=hs_code,
+            supplier_name=supplier,
+            confidence=confidence
+        )
     
     def _parse_csv(self, file_content: bytes) -> Dict[str, Any]:
         """Parse CSV BOM file"""
@@ -143,14 +244,34 @@ class BOMParser:
         else:
             text = file_content.decode("utf-8", errors="ignore")
         
-        import csv
+        # Parse CSV without pandas
         reader = csv.DictReader(io.StringIO(text))
-        rows = list(reader)
-        df = pd.DataFrame(rows)
-        return self._parse_dataframe(df)
+        
+        headers = reader.fieldnames or []
+        column_mapping = self._find_column_mapping(headers)
+        
+        items = []
+        for row in reader:
+            item = self._extract_item_from_row_dict(dict(row), column_mapping)
+            if item.material_name:
+                items.append(item)
+        
+        self.last_parsed_items = items
+        
+        return {
+            "success": True,
+            "items": [self._material_to_dict(item) for item in items],
+            "statistics": self._calculate_statistics(items),
+            "missing_fields": self._identify_missing_fields(items),
+            "confidence": self._calculate_confidence(items)
+        }
     
-    def _parse_dataframe(self, df: pd.DataFrame) -> Dict[str, Any]:
+    def _parse_dataframe(self, df) -> Dict[str, Any]:
         """Parse pandas DataFrame"""
+        if not PANDAS_AVAILABLE:
+            # Use dict-based fallback
+            return {"success": False, "error": "pandas not available", "items": []}
+        
         # Normalize column names
         df.columns = [self._normalize_column_name(col) for col in df.columns]
         
@@ -441,13 +562,7 @@ def test_parser():
     parser = BOMParser()
     
     # Test CSV
-    csv_content = b"""物料名称,比例,成本,产地
-茶叶,30,50,台湾
-奶精,25,30,中国大陆
-糖,20,15,台湾
-粉圆,15,25,台湾
-香料,10,20,中国大陆
-"""
+    csv_content = b"material_name,ratio,cost,origin_country\ntea,30,50,TW\ncream,25,30,CN\nsugar,20,15,TW\npearls,15,25,TW\nspice,10,20,CN\n"
     
     result = parser.parse_file(csv_content, "csv")
     print(json.dumps(result, ensure_ascii=False, indent=2))

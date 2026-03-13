@@ -8,7 +8,12 @@ from datetime import datetime
 import os
 
 # Create V2 specific database (separate from V1)
-V2_DB_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "ecfa_v2.db")
+V2_DB_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
+V2_DB_PATH = os.path.join(V2_DB_DIR, "ecfa_v2.db")
+
+# Ensure data directory exists
+os.makedirs(V2_DB_DIR, exist_ok=True)
+
 engine = create_engine(f"sqlite:///{V2_DB_PATH}", connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

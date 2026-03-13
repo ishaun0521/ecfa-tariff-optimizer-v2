@@ -29,13 +29,21 @@ class TariffKnowledgeBase:
         Returns:
             税率信息
         """
-        # Normalize HS code
-        hs_code = hs_code.replace(".", "").strip()
+        # Keep original format for query but try both with and without dots
+        hs_code_normalized = hs_code.replace(".", "").strip()
         
-        # Query database
+        # Query database - try both formats
         hs_record = self.db.query(HSCode).filter(
-            HSCode.hs_code.like(f"{hs_code}%")
+            (HSCode.hs_code == hs_code) | 
+            (HSCode.hs_code == hs_code_normalized) |
+            (HSCode.hs_code.like(f"{hs_code_normalized}%"))
         ).first()
+        
+        # If not found, try just the first 6 digits
+        if not hs_record:
+            hs_record = self.db.query(HSCode).filter(
+                HSCode.hs_code.like(f"{hs_code_normalized[:6]}%")
+            ).first()
         
         # Get tariff rate
         tariff_col = f"tariff_{country.lower()}"

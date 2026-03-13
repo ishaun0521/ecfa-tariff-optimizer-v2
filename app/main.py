@@ -336,6 +336,55 @@ async def optimize(request: V2OptimizeRequest):
         destination_country=request.destination_country
     )
     
+    # Add HS Code, CCC Code, and tariff info to result
+    if result.get("success"):
+        # Query tariff info for original HS Code
+        original_tariff = query_tariff_rate(request.current_hs_code, request.destination_country)
+        
+        # Generate CCC Code (HS Code without dots)
+        original_ccc_code = request.current_hs_code.replace(".", "").strip()
+        
+        # Build original tariff info
+        original_tariff_info = {
+            "hs_code": request.current_hs_code,
+            "taiwan_ccc_code": original_ccc_code,
+            "tariff_rate": f"{original_tariff.get('tariff_rate', request.current_tariff_rate)}%",
+            "ecfa_eligible": original_tariff.get("in_ecfa_list", False),
+            "ecfa_note": original_tariff.get("ecfa_note") or ("在 ECFA 免税清单内" if original_tariff.get("in_ecfa_list") else "不在 ECFA 免税清单内")
+        }
+        
+        # Get optimized HS Code from recommended scenario
+        optimized_hs_code = request.current_hs_code  # Default to current
+        if result.get("recommended_scenario"):
+            # Try to infer optimized HS Code from scenario changes
+            # For now, use the current HS code as the optimization is about BOM changes
+            # In a real scenario, this could change based on product name declaration
+            rec = result["recommended_scenario"]
+            
+            # If there are material changes that could affect HS Code
+            if rec.get("material_changes"):
+                # Keep current HS code as base, but note that
+                # the optimization is about BOM composition
+                optimized_hs_code = request.current_hs_code
+        
+        # Query optimized tariff info
+        optimized_tariff = query_tariff_rate(optimized_hs_code, request.destination_country)
+        optimized_ccc_code = optimized_hs_code.replace(".", "").strip()
+        
+        optimized_tariff_info = {
+            "hs_code": optimized_hs_code,
+            "taiwan_ccc_code": optimized_ccc_code,
+            "tariff_rate": f"{optimized_tariff.get('tariff_rate', rec.get('estimated_tariff_rate', 0))}%",
+            "ecfa_eligible": optimized_tariff.get("in_ecfa_list", False),
+            "ecfa_note": optimized_tariff.get("ecfa_note") or ("在 ECFA 免税清单内" if optimized_tariff.get("in_ecfa_list") else "不在 ECFA 免税清单内")
+        }
+        
+        # Add to result
+        result["tariff_info"] = {
+            "original": original_tariff_info,
+            "optimized": optimized_tariff_info
+        }
+    
     # Save to history
     _save_optimization_history(request, result)
     
