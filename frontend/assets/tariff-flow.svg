@@ -1,0 +1,45 @@
+<svg width="1200" height="560" viewBox="0 0 1200 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="560" rx="24" fill="#F8FBFF"/>
+  <text x="60" y="70" fill="#172033" font-family="Arial, sans-serif" font-size="32" font-weight="700">台灣出口到中國大陸：稅則判定與 ECFA 判斷流程</text>
+  <text x="60" y="108" fill="#5F6B85" font-family="Arial, sans-serif" font-size="20">先判商品是什麼，再判是否在 ECFA 清單內，再看原產地與文件，最後才談優惠是否能成立。</text>
+
+  <rect x="60" y="150" width="220" height="130" rx="20" fill="#FFFFFF" stroke="#DCE4F2" stroke-width="2"/>
+  <text x="85" y="195" fill="#276EF1" font-family="Arial, sans-serif" font-size="24" font-weight="700">1. 商品事實檔</text>
+  <text x="85" y="230" fill="#172033" font-family="Arial, sans-serif" font-size="18">名稱 / 成分 / 用途</text>
+  <text x="85" y="255" fill="#172033" font-family="Arial, sans-serif" font-size="18">製程 / 包裝 / BOM</text>
+
+  <rect x="340" y="150" width="220" height="130" rx="20" fill="#FFFFFF" stroke="#DCE4F2" stroke-width="2"/>
+  <text x="365" y="195" fill="#276EF1" font-family="Arial, sans-serif" font-size="24" font-weight="700">2. 稅則前置判定</text>
+  <text x="365" y="230" fill="#172033" font-family="Arial, sans-serif" font-size="18">候選 HS code</text>
+  <text x="365" y="255" fill="#172033" font-family="Arial, sans-serif" font-size="18">缺資料 / 風險提示</text>
+
+  <rect x="620" y="150" width="220" height="130" rx="20" fill="#FFFFFF" stroke="#DCE4F2" stroke-width="2"/>
+  <text x="645" y="195" fill="#276EF1" font-family="Arial, sans-serif" font-size="24" font-weight="700">3. ECFA 覆蓋</text>
+  <text x="645" y="230" fill="#172033" font-family="Arial, sans-serif" font-size="18">貨品清單是否涵蓋</text>
+  <text x="645" y="255" fill="#172033" font-family="Arial, sans-serif" font-size="18">不能倒推號列</text>
+
+  <rect x="900" y="150" width="240" height="130" rx="20" fill="#FFFFFF" stroke="#DCE4F2" stroke-width="2"/>
+  <text x="925" y="195" fill="#276EF1" font-family="Arial, sans-serif" font-size="24" font-weight="700">4. 原產地 / 文件</text>
+  <text x="925" y="230" fill="#172033" font-family="Arial, sans-serif" font-size="18">原產地規則</text>
+  <text x="925" y="255" fill="#172033" font-family="Arial, sans-serif" font-size="18">證明書 / 製程 / BOM</text>
+
+  <rect x="340" y="350" width="520" height="120" rx="20" fill="#EAF1FF" stroke="#276EF1" stroke-width="2"/>
+  <text x="380" y="397" fill="#172033" font-family="Arial, sans-serif" font-size="28" font-weight="700">5. 商業最佳化與案件分流</text>
+  <text x="380" y="432" fill="#172033" font-family="Arial, sans-serif" font-size="20">只有在前面四層有相對清楚基礎後，才進行 BOM 調整與降稅方案比較</text>
+
+  <path d="M280 215H330" stroke="#276EF1" stroke-width="6" stroke-linecap="round"/>
+  <path d="M560 215H610" stroke="#276EF1" stroke-width="6" stroke-linecap="round"/>
+  <path d="M840 215H890" stroke="#276EF1" stroke-width="6" stroke-linecap="round"/>
+  <path d="M1020 290V330H600V350" stroke="#276EF1" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <polygon points="327,205 347,215 327,225" fill="#276EF1"/>
+  <polygon points="607,205 627,215 607,225" fill="#276EF1"/>
+  <polygon points="887,205 907,215 887,225" fill="#276EF1"/>
+  <polygon points="590,347 600,367 610,347" fill="#276EF1"/>
+
+  <rect x="60" y="350" width="220" height="120" rx="20" fill="#FFF7ED" stroke="#D97706" stroke-width="2"/>
+  <text x="85" y="392" fill="#B45309" font-family="Arial, sans-serif" font-size="24" font-weight="700">邊界聲明</text>
+  <text x="85" y="424" fill="#172033" font-family="Arial, sans-serif" font-size="17">平台只做 pre-classification /</text>
+  <text x="85" y="448" fill="#172033" font-family="Arial, sans-serif" font-size="17">precheck，最終仍以中國海關</text>
+  <text x="85" y="472" fill="#172033" font-family="Arial, sans-serif" font-size="17">接受申報或預裁定為準。</text>
+</svg>

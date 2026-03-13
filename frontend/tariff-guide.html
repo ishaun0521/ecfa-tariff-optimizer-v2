@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>稅則判定教學｜ECFA 關稅優惠最佳化 AI 助手</title>
+  <style>
+    :root { --bg:#f5f7fb; --card:#fff; --text:#172033; --muted:#5f6b85; --primary:#276ef1; --border:#dce4f2; --success:#0f9d58; --warn:#d97706; --warn-soft:#fff7ed; }
+    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+    .container{max-width:1100px;margin:0 auto;padding:24px}.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 6px 24px rgba(18,30,65,.05);margin-bottom:16px}
+    h1,h2,h3{margin:0 0 12px}.muted{color:var(--muted)} a{color:var(--primary);text-decoration:none} a:hover{text-decoration:underline}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}.link-btn{display:inline-flex;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--text);font-weight:700;text-decoration:none}
+    .notice{border-radius:12px;padding:12px 14px;background:var(--warn-soft);color:#b45309;margin:12px 0}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.span-6{grid-column:span 6}.span-12{grid-column:span 12}@media(max-width:900px){.span-6{grid-column:span 12}}
+    .step{border:1px solid var(--border);border-radius:14px;padding:14px;background:#fbfcff}
+    img.diagram{width:100%;border:1px solid var(--border);border-radius:16px;background:#fff}
+    .ownership{background:linear-gradient(180deg,#fff 0%,#f7fbff 100%)}
+    .meta-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0 14px}
+    .meta-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#f0f5ff;color:#1d4ed8;font-size:12px;font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>稅則判定流程教學</h1>
+      <div class="meta-bar">
+        <span class="meta-chip">版本 v0.5.0</span>
+        <span class="meta-chip">更新時間：2026-03-12（台灣時間）</span>
+        <a class="link-btn" href="/changelog">改版歷程</a>
+      </div>
+      <p>這一頁是給使用者、同事與客戶看的教學頁，目的是解釋：<strong>台灣出口到中國大陸的商品，稅則是怎麼判的</strong>，以及 ECFA 優惠為什麼不能跳過稅則歸類直接談。</p>
+      <div class="notice">重點：本平台有研究與前置判斷能力，但不冒充中國海關最終裁定。最終稅則與優惠適用，仍以中國海關接受申報、預裁定與正式審核為準。</div>
+      <div class="actions">
+        <a class="link-btn" href="/">回首頁</a>
+        <a class="link-btn" href="/legal-sources">官方法規來源</a>
+        <a class="link-btn" href="/changelog">改版歷程</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>一張圖看懂流程</h2>
+      <img class="diagram" src="/frontend/assets/tariff-flow.svg" alt="稅則判定與 ECFA 判斷流程圖" />
+      <p class="muted">這張圖可以直接拿來做說明：先判商品事實與候選號列，再看 ECFA 貨品清單，再看原產地與文件，最後才談優惠是否可能落地。</p>
+    </div>
+
+    <div class="card">
+      <h2>核心觀念：不是先問有沒有 ECFA，而是先問商品到底是什麼</h2>
+      <ul>
+        <li><strong>第一層：稅則歸類</strong>——先判商品本質、成分、用途、製程、包裝型態。</li>
+        <li><strong>第二層：ECFA 貨品清單</strong>——看這個號列是否在協議覆蓋範圍內。</li>
+        <li><strong>第三層：原產地認定</strong>——看是否符合完全取得 / 實質轉型 / 區域價值含量等規則。</li>
+        <li><strong>第四層：文件要求</strong>——確認能否用證明書、製程、BOM、發票等資料支撐前面三件事。</li>
+      </ul>
+    </div>
+
+    <div class="grid">
+      <div class="card span-6">
+        <h2>台灣出口端在做什麼？</h2>
+        <div class="step">
+          <ol>
+            <li>整理商品名稱、成分、用途、製程、包裝與交易條件</li>
+            <li>找出候選稅則號列</li>
+            <li>檢查是否可能落在 ECFA 貨品清單</li>
+            <li>準備原產地與 supporting documents</li>
+            <li>把一致的資料包交給中國進口商 / 報關行</li>
+          </ol>
+        </div>
+      </div>
+      <div class="card span-6">
+        <h2>中國進口海關端在做什麼？</h2>
+        <div class="step">
+          <ol>
+            <li>接受或不接受申報號列</li>
+            <li>接受或不接受 ECFA 優惠主張</li>
+            <li>審查原產地證明與資料一致性</li>
+            <li>必要時要求補件、改列他號、補稅或不予優惠</li>
+            <li>有爭議時，以預裁定 / 正式審核結果為準</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>平台是怎麼判的？</h2>
+      <ol>
+        <li><strong>建立商品事實檔</strong>：商品描述、成分/BOM、用途、製程、包裝、目的地。</li>
+        <li><strong>做 pre-classification</strong>：輸出候選 HS code，而不是假裝只有唯一答案。</li>
+        <li><strong>檢查 ECFA 覆蓋</strong>：確認候選號列是否在 ECFA 貨品清單內。</li>
+        <li><strong>檢查原產地</strong>：看台灣來源、製程、附加價值與高風險原料。</li>
+        <li><strong>檢查文件</strong>：看支撐證據夠不夠、彼此是否一致。</li>
+        <li><strong>再做最佳化</strong>：如果有空間，才去做 BOM 調整建議。</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>為什麼我們強調「前置判斷」而不是「海關裁定」？</h2>
+      <ul>
+        <li>因為最終進口關稅與優惠適用，真正關鍵是中國海關最後接受的申報號列。</li>
+        <li>同一個商品名稱，如果成分、包裝或申報型態不同，號列可能完全不同。</li>
+        <li>ECFA 清單與原產地規則都建立在號列之上，不能倒推。</li>
+        <li>所以平台要做的是：<strong>縮小不確定性、提高前期判斷品質、降低溝通成本</strong>。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>你可以怎麼拿這頁去介紹別人？</h2>
+      <ul>
+        <li>先給對方看流程圖，讓他理解「稅則 → ECFA 清單 → 原產地 → 文件」的順序。</li>
+        <li>再進首頁示範輸入商品與 BOM，讓他看到平台如何輸出候選號列與風險提示。</li>
+        <li>最後補一句邊界聲明：<strong>這是 pre-classification，不是假裝替海關下裁定</strong>。</li>
+      </ul>
+    </div>
+
+  </div>
+  <div class="container">
+    <div class="card ownership">
+      <h2>平台所有權與延伸服務</h2>
+      <p><strong>本平台所有權歸屬於 <a href="https://caio.com.tw/" target="_blank" rel="noopener noreferrer">caio.com.tw</a> 陳以軒。</strong></p>
+      <p class="muted">如果你希望進一步了解 CAIO 如何提供 AI 導入、顧問、AI SEO 與其他服務，這個教學頁也歡迎直接導向 <a href="https://caio.com.tw/" target="_blank" rel="noopener noreferrer">caio.com.tw</a>，讓使用者知道這不是臨時拼裝頁，而是有研究、有服務承接能力的平台。</p>
+    </div>
+  </div>
+  <!-- Usage Tracking -->
+  <script src="/frontend/assets/tracking.js"></script>
+</body>
+</html>

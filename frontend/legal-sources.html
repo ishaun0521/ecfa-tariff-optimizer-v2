@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>官方法規來源｜ECFA 關稅優惠最佳化 AI 助手</title>
+  <style>
+    :root { --bg:#f5f7fb; --card:#fff; --text:#172033; --muted:#5f6b85; --primary:#276ef1; --border:#dce4f2; --warn:#d97706; --warn-soft:#fff7ed; }
+    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 6px 24px rgba(18,30,65,.05);margin-bottom:16px}
+    h1,h2,h3{margin:0 0 12px}.muted{color:var(--muted)} a{color:var(--primary);text-decoration:none} a:hover{text-decoration:underline}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}.link-btn{display:inline-flex;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--text);font-weight:700;text-decoration:none}
+    .notice{border-radius:12px;padding:12px 14px;background:var(--warn-soft);color:#b45309;margin:12px 0}
+    .source{border:1px solid var(--border);border-radius:14px;padding:14px;margin:12px 0;background:#fbfcff}
+    code{background:#eef4ff;padding:2px 6px;border-radius:6px}
+    .ownership{background:linear-gradient(180deg,#fff 0%,#f7fbff 100%)}
+    .meta-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0 14px}
+    .meta-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#f0f5ff;color:#1d4ed8;font-size:12px;font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>官方法規來源與依據</h1>
+      <div class="meta-bar">
+        <span class="meta-chip">版本 v0.5.0</span>
+        <span class="meta-chip">更新時間：2026-03-12（台灣時間）</span>
+        <a class="link-btn" href="/changelog">改版歷程</a>
+      </div>
+      <p>這一頁列出本平台在 <strong>稅則前置判定 / ECFA 前置判斷</strong> 中使用的官方來源，讓使用者可以自行核對來源與法律邊界。</p>
+      <div class="notice">邊界聲明：本平台只做 <strong>pre-classification / precheck</strong>。最終稅則號列、進口稅率、ECFA 優惠適用與原產地接受與否，仍以中國海關接受申報、預裁定或正式審核結果為準。</div>
+      <div class="actions">
+        <a class="link-btn" href="/">回首頁</a>
+        <a class="link-btn" href="/tariff-guide">看稅則判定教學</a>
+        <a class="link-btn" href="/official-sources.json">看 JSON 資料</a>
+        <a class="link-btn" href="/changelog">改版歷程</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>台灣端官方來源</h2>
+      <div class="source">
+        <h3>1. 財政部關務署－原產地規則總頁</h3>
+        <p><a href="https://web.customs.gov.tw/singlehtml/715" target="_blank">https://web.customs.gov.tw/singlehtml/715</a></p>
+        <p class="muted">用途：ECFA 原產地規則、認定基準、貨品清單與統一規章的官方入口。</p>
+      </div>
+      <div class="source">
+        <h3>2. ECFA 原產地認定基準</h3>
+        <p><a href="https://web.customs.gov.tw/download/m232104" target="_blank">https://web.customs.gov.tw/download/m232104</a></p>
+        <p class="muted">用途：判斷完全取得、實質轉型、區域價值含量等原產地規則。</p>
+      </div>
+      <div class="source">
+        <h3>3. ECFA 原產地貨品清單</h3>
+        <p><a href="https://web.customs.gov.tw/download/m231959" target="_blank">https://web.customs.gov.tw/download/m231959</a></p>
+        <p class="muted">用途：判斷候選稅則號列是否位於 ECFA 可覆蓋範圍內。</p>
+      </div>
+      <div class="source">
+        <h3>4. ECFA 統一規章（含原產地證明書）</h3>
+        <p><a href="https://web.customs.gov.tw/download/m231957" target="_blank">https://web.customs.gov.tw/download/m231957</a></p>
+        <p class="muted">用途：文件要求、原產地證明書與實務作業規範。</p>
+      </div>
+      <div class="source">
+        <h3>5. 財政部關務署－稅則稅率查詢及諮詢電話入口</h3>
+        <p><a href="https://web.customs.gov.tw/link/3078" target="_blank">https://web.customs.gov.tw/link/3078</a></p>
+        <p class="muted">用途：台灣端官方稅則 / 稅率查詢入口。</p>
+      </div>
+      <div class="source">
+        <h3>6. 財政部關務署－稅則稅率查詢系統</h3>
+        <p><a href="https://portal.sw.nat.gov.tw/APGQ/XGC411" target="_blank">https://portal.sw.nat.gov.tw/APGQ/XGC411</a></p>
+        <p class="muted">用途：查候選稅則號列與對應稅則 / 稅率資訊。</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>中國端官方來源</h2>
+      <div class="source">
+        <h3>1. 中華人民共和國海關總署官網</h3>
+        <p><a href="https://www.customs.gov.cn/" target="_blank">https://www.customs.gov.cn/</a></p>
+        <p class="muted">用途：中國海關公告、預裁定、監管制度與正式審核體系官方入口。</p>
+      </div>
+      <div class="source">
+        <h3>2. 中國海關線上辦事入口</h3>
+        <p><a href="https://online.customs.gov.cn/" target="_blank">https://online.customs.gov.cn/</a></p>
+        <p class="muted">用途：中國海關線上申報 / 單一窗口 / 企業辦事入口。</p>
+      </div>
+      <div class="source">
+        <h3>3. 中國政府網</h3>
+        <p><a href="https://www.gov.cn/" target="_blank">https://www.gov.cn/</a></p>
+        <p class="muted">用途：中央法規、部門規章與年度政策文件入口。</p>
+      </div>
+      <div class="notice">提醒：中國海關官網與線上系統對自動化抓取常有限制，因此平台設計保留 <strong>人工官方核驗</strong> 節點，不以靜態資料冒充中國海關最終接受結果。</div>
+    </div>
+
+    <div class="card">
+      <h2>平台在功能中怎麼使用這些來源？</h2>
+      <ul>
+        <li><strong>稅則前置判定</strong>：依商品事實、案例模板、台灣官方稅則入口產出候選號列。</li>
+        <li><strong>ECFA 覆蓋判斷</strong>：用 ECFA 原產地貨品清單檢查候選號列是否在覆蓋範圍內。</li>
+        <li><strong>原產地前置檢查</strong>：用 ECFA 原產地認定基準檢查完全取得 / 實質轉型 / 區域價值含量等可能性。</li>
+        <li><strong>文件要求</strong>：用 ECFA 統一規章與原產地證明書規範列出文件缺口。</li>
+      </ul>
+      <p class="muted">如果你要驗證平台說法是否合法合規，建議先從這頁的官方連結點開，再對照 <code>/tariff-guide</code> 與首頁分析結果一起看。</p>
+    </div>
+
+  </div>
+  <div class="container">
+    <div class="card ownership">
+      <h2>平台所有權與服務提供者</h2>
+      <p><strong>本平台所有權歸屬於 <a href="https://caio.com.tw/" target="_blank" rel="noopener noreferrer">caio.com.tw</a> 陳以軒。</strong></p>
+      <p class="muted">若你希望了解 CAIO 在 AI 導入、AI SEO、顧問與策略服務上的實際能力，歡迎從這裡前往 <a href="https://caio.com.tw/" target="_blank" rel="noopener noreferrer">caio.com.tw</a> 查看完整服務內容。</p>
+    </div>
+  </div>
+  <!-- Usage Tracking -->
+  <script src="/frontend/assets/tracking.js"></script>
+</body>
+</html>

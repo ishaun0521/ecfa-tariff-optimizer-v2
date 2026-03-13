@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>改版歷程｜ECFA 關稅優惠最佳化 AI 助手</title>
+  <style>
+    :root { --bg:#f5f7fb; --card:#fff; --text:#172033; --muted:#5f6b85; --primary:#276ef1; --border:#dce4f2; --success:#0f9d58; }
+    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 6px 24px rgba(18,30,65,.05);margin-bottom:16px}
+    h1,h2,h3{margin:0 0 12px}.muted{color:var(--muted)} a{color:var(--primary);text-decoration:none} a:hover{text-decoration:underline}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}.link-btn{display:inline-flex;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--text);font-weight:700;text-decoration:none}
+    .meta-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0 14px}
+    .meta-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#f0f5ff;color:#1d4ed8;font-size:12px;font-weight:700}
+    .timeline{display:grid;gap:14px}
+    .entry{border:1px solid var(--border);border-radius:16px;padding:16px;background:#fbfcff}
+    .entry h3{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .entry ul{margin-top:8px}
+    .ownership{background:linear-gradient(180deg,#fff 0%,#f7fbff 100%)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>網站改版歷程</h1>
+      <div class="meta-bar">
+        <span class="meta-chip">目前版本 v0.5.0</span>
+        <span class="meta-chip">更新時間：2026-03-12（台灣時間）</span>
+      </div>
+      <p>這一頁用來記錄本平台每次改版增加了哪些功能、改善哪些內容，讓使用者與合作夥伴可以直接看到平台的演進歷程。</p>
+      <div class="actions">
+        <a class="link-btn" href="/">回首頁</a>
+        <a class="link-btn" href="/legal-sources">官方法規來源</a>
+        <a class="link-btn" href="/tariff-guide">稅則判定教學</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>改版時間線</h2>
+      <div class="timeline">
+        <div class="entry">
+          <h3><span>v0.5.0｜改版歷程頁 + 版本資訊</span><span class="muted">2026-03-12</span></h3>
+          <ul>
+            <li>新增 <strong>改版歷程頁</strong>，可直接查看每次版本更新內容。</li>
+            <li>首頁、官方法規來源頁、稅則教學頁都加入 <strong>版號與更新時間</strong>。</li>
+            <li>新增「改版歷程」入口，方便使用者追蹤平台演進。</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <h3><span>v0.4.4｜範例 BOM 下載 + 食品類提示</span><span class="muted">2026-03-12</span></h3>
+          <ul>
+            <li>在 BOM 上傳區新增 3 個 <strong>範例商品 CSV 下載</strong>。</li>
+            <li>讓使用者可以先下載範例格式，再改成自己的 BOM 後上傳。</li>
+            <li>首頁新增提示：目前平台主要聚焦 <strong>食品類</strong>，其他類別將陸續增加。</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <h3><span>v0.4.3｜入站免責聲明確認彈窗</span><span class="muted">2026-03-12</span></h3>
+          <ul>
+            <li>使用者一進首頁即顯示 <strong>邊界說明 / 免責聲明確認彈窗</strong>。</li>
+            <li>必須勾選並按下「我已了解」後，才能開始操作平台。</li>
+            <li>彈窗內可直接前往官方法規來源頁與稅則教學頁。</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <h3><span>v0.4.2｜品牌導流與所有權標示</span><span class="muted">2026-03-12</span></h3>
+          <ul>
+            <li>平台新增 <strong>所有權標示</strong>：歸屬於 <strong>caio.com.tw 陳以軒</strong>。</li>
+            <li>首頁、法規來源頁、教學頁加入前往 <strong>caio.com.tw</strong> 的導流入口。</li>
+            <li>所有權區塊移至頁面最底部，讓使用者先看完內容再看到導引。</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <h3><span>v0.4.1｜法規來源頁 + 稅則教學頁</span><span class="muted">2026-03-12</span></h3>
+          <ul>
+            <li>新增 <strong>/legal-sources</strong>：展示台灣與中國端官方法規來源及 URL。</li>
+            <li>新增 <strong>/tariff-guide</strong>：教學頁說明稅則判定流程、ECFA 清單、原產地與文件四層關係。</li>
+            <li>加入流程圖（SVG），方便用於對外說明與展示。</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <h3><span>v0.4.0｜稅則前置判定模組</span><span class="muted">2026-03-12</span></h3>
+          <ul>
+            <li>新增 <strong>/classify</strong> API，支援稅則前置判定（pre-classification）。</li>
+            <li>將稅則候選號列、缺資料、風險提示、人工覆核條件接入 `/analyze` 與 `/optimize`。</li>
+            <li>加入 `customs_boundary_notice`，明確聲明本平台非最終海關裁定。</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <h3><span>v0.3.0｜案例級商業邏輯 MVP</span><span class="muted">2026-03-12</span></h3>
+          <ul>
+            <li>三個食品案例模板上線：<strong>珍珠奶茶、鳳梨酥、芋頭酥</strong>。</li>
+            <li>新增 `case_insights`、`key_risk_materials`、`recommended_next_checks`。</li>
+            <li>候選方案與案例情境連動，不再只是 generic heuristic。</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <h3><span>v0.2.0｜前端 MVP + 線上展示</span><span class="muted">2026-03-12</span></h3>
+          <ul>
+            <li>首頁改成可直接操作的 Web UI，不再只是 API JSON。</li>
+            <li>分析與最佳化結果頁改為可讀性較高的產品化卡片式展示。</li>
+            <li>Zeabur 線上站可打開首頁、健康檢查與 API docs。</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <h3><span>v0.1.0｜專案初始化</span><span class="muted">2026-03-11</span></h3>
+          <ul>
+            <li>建立 FastAPI 後端 MVP。</li>
+            <li>提供 `/analyze`、`/optimize`、`/upload-bom` 等基礎 API。</li>
+            <li>建立食品類 BOM 測試資料與 ECFA 官方研究來源清單。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card ownership">
+      <h2>平台所有權與延伸服務</h2>
+      <p><strong>本平台所有權歸屬於 <a href="https://caio.com.tw/" target="_blank" rel="noopener noreferrer">caio.com.tw</a> 陳以軒。</strong></p>
+      <p class="muted">如果你看完改版歷程後，想進一步了解 CAIO 在 AI 導入、AI SEO、顧問與策略服務上的實際能力，歡迎前往 <a href="https://caio.com.tw/" target="_blank" rel="noopener noreferrer">caio.com.tw</a> 查看完整服務內容。</p>
+    </div>
+  </div>
+  <!-- Usage Tracking -->
+  <script src="/frontend/assets/tracking.js"></script>
+</body>
+</html>
