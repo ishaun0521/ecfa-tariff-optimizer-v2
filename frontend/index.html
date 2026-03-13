@@ -1174,17 +1174,139 @@
     document.getElementById('clearBtn').addEventListener('click', clearForm);
 
     // V2 API 预留功能 handlers
-    document.getElementById('v2ParseBomBtn').addEventListener('click', () => {
-      showV2Message('NLP BOM 解析功能準備中，即將上線。', 'info');
+    // V2 API handlers - 實際調用後端 API
+    document.getElementById('v2ParseBomBtn').addEventListener('click', async () => {
+      const fileInput = document.getElementById('bomFile');
+      const file = fileInput.files[0];
+      if (!file) {
+        showV2Message('請先選擇 BOM 檔案上傳。', 'error');
+        return;
+      }
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        showV2Message('NLP 解析中...', 'info');
+        const res = await fetch('/api/v2/parse-bom', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || '解析失敗');
+        
+        if (data.items && data.items.length) {
+          bomTableBody.innerHTML = '';
+          data.items.forEach(item => {
+            createBomRow({
+              material_name: item.material_name,
+              ratio: item.ratio,
+              cost: item.cost,
+              origin_country: item.origin_country,
+              adjustable: true
+            });
+          });
+          showV2Message(`NLP 解析完成，共 ${data.items.length} 項物料。`, 'info');
+        } else {
+          showV2Message('解析成功但未找到物料資料。', 'warn');
+        }
+      } catch (err) {
+        showV2Message('NLP 解析失敗：' + err.message, 'error');
+      }
     });
-    document.getElementById('v2TariffQueryBtn').addEventListener('click', () => {
-      showV2Message('稅則查詢功能準備中，即將上線。', 'info');
+
+    document.getElementById('v2TariffQueryBtn').addEventListener('click', async () => {
+      const hsCode = document.getElementById('hsCode').value.trim();
+      if (!hsCode) {
+        showV2Message('請先填入 HS Code。', 'error');
+        return;
+      }
+      try {
+        showV2Message('查詢稅則中...', 'info');
+        const res = await fetch('/api/v2/tariff-query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ hs_code: hsCode, country: 'CN' })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || '查詢失敗');
+        
+        const tariff = data.data;
+        let msg = `HS Code: ${tariff.hs_code}\n稅率: ${tariff.tariff_rate}%`;
+        if (tariff.description) msg += `\n說明: ${tariff.description}`;
+        msg += `\nECFA 資格: ${tariff.in_ecfa_list ? '✓ 在清單內' : '✗ 不在清單內'}`;
+        if (tariff.ecfa_note) msg += `\n備註: ${tariff.ecfa_note}`;
+        
+        showV2Message(msg, tariff.in_ecfa_list ? 'info' : 'warn');
+      } catch (err) {
+        showV2Message('稅則查詢失敗：' + err.message, 'error');
+      }
     });
-    document.getElementById('v2EcfaCheckBtn').addEventListener('click', () => {
-      showV2Message('ECFA 範圍檢查功能準備中，即將上線。', 'info');
+
+    document.getElementById('v2EcfaCheckBtn').addEventListener('click', async () => {
+      const productName = document.getElementById('productName').value.trim();
+      const hsCode = document.getElementById('hsCode').value.trim();
+      if (!productName && !hsCode) {
+        showV2Message('請填入商品名稱或 HS Code。', 'error');
+        return;
+      }
+      try {
+        showV2Message('ECFA 資格檢查中...', 'info');
+        const res = await fetch('/api/v2/ecfa-check', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ product_name: productName, hs_code: hsCode || null })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || '檢查失敗');
+        
+        const result = data.data;
+        let msg = `產品: ${result.product_name}\nECFA 資格: ${result.in_ecfa_list ? '✓ 符合' : '✗ 不符合'}`;
+        if (result.category) msg += `\n貨品分類: ${result.category}`;
+        if (result.notes) msg += `\n備註: ${result.notes}`;
+        
+        showV2Message(msg, result.in_ecfa_list ? 'info' : 'warn');
+      } catch (err) {
+        showV2Message('ECFA 檢查失敗：' + err.message, 'error');
+      }
     });
-    document.getElementById('v2OptimizeBtn').addEventListener('click', () => {
-      showV2Message('多目標優化功能準備中，即將上線。', 'info');
+
+    document.getElementById('v2OptimizeBtn').addEventListener('click', async () => {
+      const payload = buildPayload(true);
+      if (!payload.product_name || !payload.bom_items.length || payload.current_tariff_rate === null) {
+        showV2Message('請填入商品名稱、目前稅率與至少 1 筆 BOM。', 'error');
+        return;
+      }
+      try {
+        showV2Message('多目標優化中...', 'info');
+        
+        const res = await fetch('/api/v2/optimize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            product_name: payload.product_name,
+            product_category: payload.product_description,
+            current_hs_code: payload.current_hs_code,
+            current_tariff_rate: payload.current_tariff_rate,
+            destination_country: payload.destination_country,
+            bom_items: payload.bom_items.map(item => ({
+              ...item,
+              manufacturing_process: null,
+              hs_code: null,
+              supplier_name: null
+            })),
+            constraints: {
+              max_cost_increase_pct: payload.constraints?.max_cost_increase_pct || 3,
+              max_material_adjustment_count: 3,
+              target_origin_ratio: null,
+              locked_materials: payload.constraints?.locked_materials || []
+            }
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || '優化失敗');
+        
+        const result = data.data;
+        renderV2OptimizeResult(result);
+        showV2Message('多目標優化完成！', 'info');
+      } catch (err) {
+        showV2Message('優化失敗：' + err.message, 'error');
+      }
     });
 
     function showV2Message(msg, type) {
